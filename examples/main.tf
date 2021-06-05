@@ -19,6 +19,6 @@ terraform {
 provider "digitalocean" {}
 
 module "bucket" {
-  source = "./"
+  source = "../"
   name   = "test-name"
 }
