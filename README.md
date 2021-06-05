@@ -1,113 +1,58 @@
-# terraform-docs
+# DigitalOcean Remote State Space Terraform Module
 
-[![Build Status](https://github.com/terraform-docs/terraform-docs/workflows/ci/badge.svg)](https://github.com/terraform-docs/terraform-docs/actions) [![GoDoc](https://pkg.go.dev/badge/github.com/terraform-docs/terraform-docs)](https://pkg.go.dev/github.com/terraform-docs/terraform-docs) [![Go Report Card](https://goreportcard.com/badge/github.com/terraform-docs/terraform-docs)](https://goreportcard.com/report/github.com/terraform-docs/terraform-docs) [![Codecov Report](https://codecov.io/gh/terraform-docs/terraform-docs/branch/master/graph/badge.svg)](https://codecov.io/gh/terraform-docs/terraform-docs) [![License](https://img.shields.io/github/license/terraform-docs/terraform-docs)](https://github.com/terraform-docs/terraform-docs/blob/master/LICENSE) [![Latest release](https://img.shields.io/github/v/release/terraform-docs/terraform-docs)](https://github.com/terraform-docs/terraform-docs/releases)
+Terraform module that creates a DigitalOcean space (bucket) to be used as a terraform remote state store. 
 
-![terraform-docs-teaser](./images/terraform-docs-teaser.png)
+## Usage
 
-## What is terraform-docs
+```hcl
+provider "digitalocean" {}
 
-A utility to generate documentation from Terraform modules in various output formats.
-
-## Documentation
-
-- **Users**
-  - Read the [User Guide] to learn how to use terraform-docs
-  - Read the [Formats Guide] to learn about different output formats of terraform-docs
-  - Refer to [Config File Reference] for all the available configuration options
-- **Developers**
-  - Read [Contributing Guide] before submitting a pull request
-
-Visit [our website] for all documentation.
-
-## Installation
-
-The latest version can be installed using `go get`:
-
-```bash
-GO111MODULE="on" go get github.com/terraform-docs/terraform-docs@v0.14.1
+module "bucket" {
+  source = "../"
+  name   = "gonzoautomations-terraform-state-example"
+}
 ```
 
-**NOTE:** to download any version **before** `v0.9.1` (inclusive) you need to use to
-old module namespace (`segmentio`):
+<!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
+## Requirements
 
-```bash
-# only for v0.9.1 and before
-GO111MODULE="on" go get github.com/segmentio/terraform-docs@v0.9.1
-```
+| Name | Version |
+|------|---------|
+| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 0.12.6, < 0.16 |
+| <a name="requirement_digitalocean"></a> [digitalocean](#requirement\_digitalocean) | ~> 2.0 |
 
-**NOTE:** please use the latest Go to do this, minimum `go1.16` or greater.
+## Providers
 
-This will put `terraform-docs` in `$(go env GOPATH)/bin`. If you encounter the error
-`terraform-docs: command not found` after installation then you may need to either add
-that directory to your `$PATH` as shown [here] or do a manual installation by cloning
-the repo and run `make build` from the repository which will put `terraform-docs` in:
+| Name | Version |
+|------|---------|
+| <a name="provider_digitalocean"></a> [digitalocean](#provider\_digitalocean) | 2.9.0 |
 
-```bash
-$(go env GOPATH)/src/github.com/terraform-docs/terraform-docs/bin/$(uname | tr '[:upper:]' '[:lower:]')-amd64/terraform-docs
-```
+## Modules
 
-Stable binaries are also available on the [releases] page. To install, download the
-binary for your platform from "Assets" and place this into your `$PATH`:
+No modules.
 
-```bash
-curl -Lo ./terraform-docs.tar.gz https://github.com/terraform-docs/terraform-docs/releases/download/v0.14.1/terraform-docs-v0.14.1-$(uname)-amd64.tar.gz
-tar -xzf terraform-docs.tar.gz
-chmod +x terraform-docs
-mv terraform-docs /some-dir-in-your-PATH/terraform-docs
-```
+## Resources
 
-**NOTE:** Windows releases are in `ZIP` format.
+| Name | Type |
+|------|------|
+| [digitalocean_spaces_bucket.this](https://registry.terraform.io/providers/digitalocean/digitalocean/latest/docs/resources/spaces_bucket) | resource |
 
-If you are a Mac OS X user, you can use [Homebrew]:
+## Inputs
 
-```bash
-brew install terraform-docs
-```
+| Name | Description | Type | Default | Required |
+|------|-------------|------|---------|:--------:|
+| <a name="input_acl"></a> [acl](#input\_acl) | Canned ACL applied on bucket creation (private or public-read). | `string` | `"private"` | no |
+| <a name="input_enabled"></a> [enabled](#input\_enabled) | A state of versioning | `bool` | `true` | no |
+| <a name="input_force_destroy"></a> [force\_destroy](#input\_force\_destroy) | Unless true, the bucket will only be destroyed if empty. | `bool` | `false` | no |
+| <a name="input_name"></a> [name](#input\_name) | The name of the bucket. | `string` | n/a | yes |
+| <a name="input_region"></a> [region](#input\_region) | The region where the bucket resides. | `string` | `"nyc3"` | no |
 
-or
+## Outputs
 
-```bash
-brew install terraform-docs/tap/terraform-docs
-```
-
-Windows users can install using [Scoop]:
-
-```bash
-scoop bucket add terraform-docs https://github.com/terraform-docs/scoop-bucket
-scoop install terraform-docs
-```
-
-or [Chocolatey]:
-
-```bash
-choco install terraform-docs
-```
-
-Alternatively you also can run `terraform-docs` as a container:
-
-```bash
-docker run quay.io/terraform-docs/terraform-docs:0.14.1
-```
-
-**NOTE:** Docker tag `latest` refers to _latest_ stable released version and `edge`
-refers to HEAD of `master` at any given point in time.
-
-## Community
-
-- Discuss terraform-docs on [Slack]
-
-## License
-
-MIT License - Copyright (c) 2021 The terraform-docs Authors.
-
-[User Guide]: ./docs/user-guide/introduction.md
-[Formats Guide]: ./docs/reference/terraform-docs.md
-[Config File Reference]: ./docs/user-guide/configuration.md
-[Contributing Guide]: CONTRIBUTING.md
-[our website]: https://terraform-docs.io/
-[here]: https://golang.org/doc/code.html#GOPATH
-[releases]: https://github.com/terraform-docs/terraform-docs/releases
-[Homebrew]: https://brew.sh
-[Scoop]: https://scoop.sh/
-[Chocolatey]: https://www.chocolatey.org
-[Slack]: https://slack.terraform-docs.io/
+| Name | Description |
+|------|-------------|
+| <a name="output_bucket_domain_name"></a> [bucket\_domain\_name](#output\_bucket\_domain\_name) | The FQDN of the bucket (e.g bucket-name.nyc3.digitaloceanspaces.com). |
+| <a name="output_name"></a> [name](#output\_name) | The name of the bucket. |
+| <a name="output_region"></a> [region](#output\_region) | the name of the region. |
+| <a name="output_urn"></a> [urn](#output\_urn) | The uniform resource name for the bucket. |
+<!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->

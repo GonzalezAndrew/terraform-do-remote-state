@@ -6,6 +6,13 @@ terraform {
       version = "~> 2.0"
     }
   }
+  backend "remote" {
+    organization = "gonzalezandrew"
+
+    workspaces {
+      name = "terraform-do-remote-state-module"
+    }
+  }
 }
 
 
@@ -13,5 +20,5 @@ provider "digitalocean" {}
 
 module "bucket" {
   source = "../"
-  name   = "gonzoautomations-terraform-state-example"
+  name   = "test-name"
 }
