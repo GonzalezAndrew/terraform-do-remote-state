@@ -19,6 +19,6 @@ terraform {
 provider "digitalocean" {}
 
 module "bucket" {
-  source = "../"
+  source = "git@github.com/GonzalezAndrew/terraform-do-remote-state.git?ref=master"
   name   = "test-name"
 }
